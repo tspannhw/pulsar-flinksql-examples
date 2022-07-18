@@ -1,21 +1,28 @@
-Spin Pulsar and Flink Clusters
+## Pulsar Flink SQL Examples
+
+> Pulsar is a highly magnetized rotating neutron star
+
+#### Flink SQL's SELECT * is a natural for Selecting Pulsar 😊
+
+### Environment Setup and Instructions
+**Spin up Pulsar and Flink Clusters**
 ```shell
 docker-compose up
 ```
 
-Create a Pulsar topic and add retention policies to keep data around
+**Create a Pulsar topic and add retention policies to keep data around**
 ```shell
 ./setup.sh
 ```
 
 At this point run the EventsProducer class to generate some event data. You can find the Producer [here](src/main/java/io/ipolyzos/EventsProducer.java)
 
-Launch Flink SQL Cli
+**Launch Flink SQL Cli**
 ```shell
 docker exec -it jobmanager ./bin/sql-client.sh
 ```
 
-Create a Pulsar Catalog
+**Create a Pulsar Catalog**
 ```shell
 CREATE CATALOG pulsar WITH (
         'type' = 'pulsar-catalog', 
@@ -24,7 +31,7 @@ CREATE CATALOG pulsar WITH (
 );
 ```
 
-Check the available databases and tables
+**Check the available databases and tables**
 ```shell
 USE CATALOGS pulsar;
 
@@ -37,19 +44,19 @@ SHOW TABLES;
 DESCRIBE events;
 ```
 
-Read all the events we have ingested
+**Read all the events we have ingested**
 ```shell
 SELECT * FROM events;
 ```
 
-Create a new database
+**Create a new database**
 ```shell
 CREATE DATABASE IF NOT EXISTS processing;
 
 USE processing;
 ```
 
-Create a new table
+**Create a new table**
 ```shell
 CREATE TABLE click_events (
     eventType STRING,
@@ -72,6 +79,7 @@ CREATE TABLE click_events (
     'format'  = 'json'
 );
 ```
+
 ```shell
 DESCRIBE click_events;
 ```
